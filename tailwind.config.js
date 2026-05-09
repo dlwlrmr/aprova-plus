@@ -1,4 +1,5 @@
 const { themeColors } = require("./theme.config");
+// Ensure all custom tokens are available
 const plugin = require("tailwindcss/plugin");
 
 const tailwindColors = Object.fromEntries(

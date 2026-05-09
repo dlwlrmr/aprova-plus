@@ -1,5 +1,3 @@
-// Fallback for using MaterialIcons on Android and web.
-
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SymbolWeight, SymbolViewProps } from "expo-symbols";
 import { ComponentProps } from "react";
@@ -8,23 +6,56 @@ import { OpaqueColorValue, type StyleProp, type TextStyle } from "react-native";
 type IconMapping = Record<SymbolViewProps["name"], ComponentProps<typeof MaterialIcons>["name"]>;
 type IconSymbolName = keyof typeof MAPPING;
 
-/**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
- */
 const MAPPING = {
+  // Navigation
   "house.fill": "home",
+  "chart.bar.fill": "bar-chart",
+  "timer": "timer",
+  "person.fill": "person",
+  // Actions
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  "chevron.left": "chevron-left",
+  "checkmark.circle.fill": "check-circle",
+  "checkmark.circle": "radio-button-unchecked",
+  "xmark.circle.fill": "cancel",
+  "xmark": "close",
+  "plus": "add",
+  "minus": "remove",
+  // Study
+  "book.fill": "menu-book",
+  "clock.fill": "access-time",
+  "flame.fill": "local-fire-department",
+  "star.fill": "star",
+  "trophy.fill": "emoji-events",
+  "bolt.fill": "bolt",
+  "moon.fill": "bedtime",
+  "sun.max.fill": "wb-sunny",
+  "brain.head.profile": "psychology",
+  "target": "gps-fixed",
+  // Progress
+  "chart.line.uptrend.xyaxis": "trending-up",
+  "calendar": "calendar-today",
+  "hourglass": "hourglass-empty",
+  // Settings
+  "gearshape.fill": "settings",
+  "bell.fill": "notifications",
+  "speaker.wave.2.fill": "volume-up",
+  "speaker.slash.fill": "volume-off",
+  "arrow.clockwise": "refresh",
+  "info.circle": "info",
+  // Misc
+  "play.fill": "play-arrow",
+  "pause.fill": "pause",
+  "stop.fill": "stop",
+  "arrow.right": "arrow-forward",
+  "arrow.left": "arrow-back",
+  "heart.fill": "favorite",
+  "lock.fill": "lock",
+  "shield.fill": "shield",
 } as IconMapping;
 
-/**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
- */
 export function IconSymbol({
   name,
   size = 24,

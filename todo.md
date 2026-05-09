@@ -1,0 +1,18 @@
+# Aprova+ — TODO
+
+- [x] Gerar logo premium do Aprova+
+- [x] Configurar identidade visual (cores, tema)
+- [x] Configurar store (AsyncStorage) com dados do usuário
+- [x] Criar módulo de frases acolhedoras (warm-phrases.ts)
+- [x] Criar módulo de sons (sound-manager.ts)
+- [x] Configurar navegação por tabs (Hoje, Progresso, Foco, Perfil)
+- [x] Implementar onboarding premium (4 perguntas + tela criando plano)
+- [x] Implementar tela Hoje (checklist, progresso do dia, frase motivacional)
+- [x] Implementar tela Progresso (gráficos, horas, streak, conquistas)
+- [x] Implementar área Comece Rápido
+- [x] Implementar Modo Cansado
+- [x] Implementar sistema de Streak visual
+- [x] Implementar Plano Anti-Procrastinação (pomodoro, mini metas, modo foco)
+- [x] Adicionar microanimações (check, progresso, transições)
+- [x] Adicionar sons de feedback
+- [x] Polimento visual final
