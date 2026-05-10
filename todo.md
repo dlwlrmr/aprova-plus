@@ -20,3 +20,7 @@
 - [x] Adicionar sistema de dicas de recursos (livros, vídeoaulas)
 - [x] Implementar sistema de anotações do usuário
 - [x] Integrar aba Questões ao tab bar
+- [x] Criar banco de dados expandido com 3 concursos (Banco do Brasil, INSS, TJ SP)
+- [x] Adicionar questões, vídeoaulas e livros para cada concurso
+- [x] Atualizar onboarding com seleção de concurso
+- [x] Integrar conteúdo específico por concurso na aba Estudo

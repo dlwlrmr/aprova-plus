@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Animated,
   FlatList,
   Pressable,
   ScrollView,
@@ -13,7 +12,7 @@ import { ScreenContainer } from "@/components/screen-container";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { useColors } from "@/hooks/use-colors";
 import { useApp } from "@/lib/app-context";
-import { getQuestionsByConcurso, getResourcesByConcurso, getAreasByConcurso } from "@/lib/questions-database";
+import { getQuestionsByConcurso, getVideosByConcurso, getLivrosByConcurso, getAreasByConcurso } from "@/lib/concurso-database";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 
@@ -150,50 +149,6 @@ function QuestionCard({ question, onAnswer }: { question: any; onAnswer: (correc
   );
 }
 
-function ResourceCard({ resource }: { resource: any }) {
-  const colors = useColors();
-  const typeEmoji: Record<string, string> = {
-    livro: "📚",
-    vídeoaula: "🎥",
-    artigo: "📄",
-    simulado: "🧪",
-  };
-
-  return (
-    <View
-      style={{
-        backgroundColor: colors.surface,
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 12,
-        borderWidth: 1.5,
-        borderColor: colors.border,
-      }}
-    >
-      <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
-        <Text style={{ fontSize: 32 }}>{typeEmoji[resource.type]}</Text>
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 15, fontWeight: "700", color: colors.foreground, marginBottom: 2 }}>
-            {resource.title}
-          </Text>
-          {resource.author && (
-            <Text style={{ fontSize: 12, color: colors.muted, marginBottom: 6 }}>por {resource.author}</Text>
-          )}
-          <Text style={{ fontSize: 13, color: colors.muted, lineHeight: 18, marginBottom: 8 }}>
-            {resource.description}
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <Text style={{ fontSize: 14, fontWeight: "700", color: colors.warning }}>
-              ⭐ {resource.rating.toFixed(1)}
-            </Text>
-            <Text style={{ fontSize: 12, color: colors.muted }}>({resource.reviews} avaliações)</Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-}
-
 export default function StudyScreen() {
   const colors = useColors();
   const { state } = useApp();
@@ -205,7 +160,8 @@ export default function StudyScreen() {
 
   const concurso = state.profile?.concurso || "";
   const questions = getQuestionsByConcurso(concurso);
-  const resources = getResourcesByConcurso(concurso);
+  const videos = getVideosByConcurso(concurso);
+  const livros = getLivrosByConcurso(concurso);
   const areas = getAreasByConcurso(concurso);
   const filteredQuestions = selectedArea ? questions.filter((q) => q.area === selectedArea) : questions;
 
@@ -233,7 +189,7 @@ export default function StudyScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={s.header}>
           <Text style={s.title}>Questões & Estudo</Text>
-          <Text style={s.subtitle}>Pratique, aprenda e domine o concurso.</Text>
+          <Text style={s.subtitle}>Pratique, aprenda e domine o {concurso}.</Text>
         </View>
 
         {/* Tabs */}
@@ -338,8 +294,113 @@ export default function StudyScreen() {
         {/* Recursos */}
         {activeTab === "recursos" && (
           <View style={{ paddingHorizontal: 20 }}>
-            {resources.length > 0 ? (
-              resources.map((resource) => <ResourceCard key={resource.id} resource={resource} />)
+            {videos.length > 0 || livros.length > 0 ? (
+              <>
+                {videos.length > 0 && (
+                  <>
+                    <Text style={{ fontSize: 16, fontWeight: "700", color: colors.foreground, marginBottom: 12 }}>
+                      🎥 Vídeoaulas
+                    </Text>
+                    {videos.map((video) => (
+                      <View
+                        key={video.id}
+                        style={{
+                          backgroundColor: colors.surface,
+                          borderRadius: 16,
+                          padding: 16,
+                          marginBottom: 12,
+                          borderWidth: 1.5,
+                          borderColor: colors.border,
+                        }}
+                      >
+                        <Text style={{ fontSize: 15, fontWeight: "700", color: colors.foreground, marginBottom: 4 }}>
+                          {video.title}
+                        </Text>
+                        <Text style={{ fontSize: 12, color: colors.muted, marginBottom: 8 }}>
+                          {video.channel} • {video.duration}
+                        </Text>
+                        <Text style={{ fontSize: 13, color: colors.muted, lineHeight: 18, marginBottom: 12 }}>
+                          {video.description}
+                        </Text>
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                          <View
+                            style={{
+                              backgroundColor: video.level === "iniciante" ? "#22C55E" : video.level === "intermediário" ? "#F59E0B" : "#EF4444",
+                              borderRadius: 8,
+                              paddingHorizontal: 10,
+                              paddingVertical: 4,
+                            }}
+                          >
+                            <Text style={{ fontSize: 11, fontWeight: "700", color: "#fff" }}>
+                              {video.level === "iniciante" ? "Iniciante" : video.level === "intermediário" ? "Intermediário" : "Avançado"}
+                            </Text>
+                          </View>
+                          <Pressable
+                            style={{
+                              flex: 1,
+                              backgroundColor: colors.primary,
+                              borderRadius: 8,
+                              paddingHorizontal: 12,
+                              paddingVertical: 8,
+                              alignItems: "center",
+                            }}
+                          >
+                            <Text style={{ fontSize: 12, fontWeight: "700", color: "#fff" }}>Assistir no YouTube</Text>
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </>
+                )}
+
+                {livros.length > 0 && (
+                  <>
+                    <Text style={{ fontSize: 16, fontWeight: "700", color: colors.foreground, marginBottom: 12, marginTop: 20 }}>
+                      📚 Livros Recomendados
+                    </Text>
+                    {livros.map((livro) => (
+                      <View
+                        key={livro.id}
+                        style={{
+                          backgroundColor: colors.surface,
+                          borderRadius: 16,
+                          padding: 16,
+                          marginBottom: 12,
+                          borderWidth: 1.5,
+                          borderColor: colors.border,
+                        }}
+                      >
+                        <Text style={{ fontSize: 15, fontWeight: "700", color: colors.foreground, marginBottom: 2 }}>
+                          {livro.title}
+                        </Text>
+                        <Text style={{ fontSize: 12, color: colors.muted, marginBottom: 8 }}>
+                          por {livro.author}
+                        </Text>
+                        <Text style={{ fontSize: 13, color: colors.muted, lineHeight: 18, marginBottom: 12 }}>
+                          {livro.description}
+                        </Text>
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                          <Text style={{ fontSize: 14, fontWeight: "700", color: colors.warning }}>
+                            ⭐ {livro.rating.toFixed(1)}
+                          </Text>
+                          <View
+                            style={{
+                              backgroundColor: livro.level === "iniciante" ? "#22C55E" : livro.level === "intermediário" ? "#F59E0B" : "#EF4444",
+                              borderRadius: 8,
+                              paddingHorizontal: 10,
+                              paddingVertical: 4,
+                            }}
+                          >
+                            <Text style={{ fontSize: 11, fontWeight: "700", color: "#fff" }}>
+                              {livro.level === "iniciante" ? "Iniciante" : livro.level === "intermediário" ? "Intermediário" : "Avançado"}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    ))}
+                  </>
+                )}
+              </>
             ) : (
               <View style={{ alignItems: "center", paddingVertical: 32 }}>
                 <Text style={{ fontSize: 48, marginBottom: 12 }}>📖</Text>
@@ -407,7 +468,6 @@ export default function StudyScreen() {
                     fontSize: 14,
                     color: colors.foreground,
                     marginBottom: 12,
-                    paddingBottom: 8,
                   }}
                 />
                 <View style={{ flexDirection: "row", gap: 8 }}>
@@ -439,7 +499,6 @@ export default function StudyScreen() {
                     }}
                     onPress={() => {
                       if (newNoteTitle.trim() && newNoteContent.trim()) {
-                        // Aqui você salvaria a anotação
                         setShowNewNote(false);
                         setNewNoteTitle("");
                         setNewNoteContent("");
@@ -479,23 +538,6 @@ export default function StudyScreen() {
                     </Pressable>
                   </View>
                   <Text style={{ fontSize: 13, color: colors.muted, lineHeight: 18 }}>{note.content}</Text>
-                  {note.tags.length > 0 && (
-                    <View style={{ flexDirection: "row", gap: 6, marginTop: 10 }}>
-                      {note.tags.map((tag) => (
-                        <View
-                          key={tag}
-                          style={{
-                            backgroundColor: colors.primary + "20",
-                            borderRadius: 8,
-                            paddingHorizontal: 8,
-                            paddingVertical: 4,
-                          }}
-                        >
-                          <Text style={{ fontSize: 11, fontWeight: "700", color: colors.primary }}>#{tag}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  )}
                 </View>
               ))
             ) : (
