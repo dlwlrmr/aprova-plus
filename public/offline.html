@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprova+ - Offline</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      border-radius: 20px;
+      padding: 40px 20px;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    h1 {
+      color: #1f2937;
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    p {
+      color: #6b7280;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      padding: 15px;
+      background: #f3f4f6;
+      border-radius: 10px;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .status-text {
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .tips {
+      text-align: left;
+      background: #f9fafb;
+      border-left: 4px solid #7c3aed;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .tips h3 {
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .tips ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .tips li {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .tips li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #7c3aed;
+      font-weight: bold;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 30px;
+      background: #7c3aed;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background: #6d28d9;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .cached-content {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .cached-content h3 {
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .cached-content p {
+      color: #6b7280;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 15px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+
+    <h1>Sem Conexão</h1>
+    <p>Parece que você está offline. Verifique sua conexão com a internet.</p>
+
+    <div class="status">
+      <div class="status-indicator"></div>
+      <span class="status-text">Aguardando conexão...</span>
+    </div>
+
+    <div class="tips">
+      <h3>O que você pode fazer:</h3>
+      <ul>
+        <li>Verifique sua conexão WiFi ou dados móveis</li>
+        <li>Tente novamente em alguns momentos</li>
+        <li>Reinicie seu roteador ou dispositivo</li>
+      </ul>
+    </div>
+
+    <button class="button" onclick="location.reload()">
+      Tentar Novamente
+    </button>
+
+    <div class="cached-content">
+      <h3>Conteúdo em Cache</h3>
+      <p>Você pode acessar conteúdo que foi baixado anteriormente quando reconectar.</p>
+    </div>
+  </div>
+
+  <script>
+    // Verificar conexão periodicamente
+    setInterval(() => {
+      fetch('/ping', { method: 'HEAD', no-cors: true })
+        .then(() => {
+          // Conexão restaurada
+          location.reload();
+        })
+        .catch(() => {
+          // Ainda offline
+        });
+    }, 3000);
+
+    // Listener para quando a conexão for restaurada
+    window.addEventListener('online', () => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>

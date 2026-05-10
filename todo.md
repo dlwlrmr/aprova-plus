@@ -41,3 +41,19 @@
 - [x] Implementar sincronização em tempo real (Realtime)
 - [x] Testes de autenticação e persistência
 - [x] Polimento final e entrega
+
+
+## PWA - Progressive Web App
+
+- [x] Configurar Web App Manifest (manifest.json)
+- [x] Criar ícones PWA em múltiplas resoluções
+- [x] Implementar Service Worker com cache estratégico
+- [x] Criar sistema de atualizações automáticas
+- [x] Implementar sincronização de conteúdo dinâmico
+- [x] Adicionar suporte offline-first
+- [x] Otimizar performance (lazy loading, code splitting)
+- [x] Testar em navegador (Chrome, Safari, Firefox)
+- [x] Testar instalação em tela inicial (iOS e Android)
+- [ ] Implementar notificações push web
+- [x] Criar página de atualização disponível
+- [x] Testar sincronização online/offline

@@ -1,0 +1,109 @@
+{
+  "name": "Aprova+ - Seu Companheiro de Estudos",
+  "short_name": "Aprova+",
+  "description": "Plataforma moderna de estudos para concursos públicos com sincronização em tempo real e atualizações automáticas",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#7c3aed",
+  "background_color": "#ffffff",
+  "prefer_related_applications": false,
+  "categories": ["education", "productivity"],
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot-1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/images/screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/images/icon.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Estudar Hoje",
+      "short_name": "Estudar",
+      "description": "Comece a estudar agora",
+      "url": "/?tab=today",
+      "icons": [
+        {
+          "src": "/assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Ver Progresso",
+      "short_name": "Progresso",
+      "description": "Veja seu progresso",
+      "url": "/?tab=progress",
+      "icons": [
+        {
+          "src": "/assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Resolver Questões",
+      "short_name": "Questões",
+      "description": "Resolva questões de estudo",
+      "url": "/?tab=study",
+      "icons": [
+        {
+          "src": "/assets/images/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}
