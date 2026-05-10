@@ -104,8 +104,9 @@ export default function AuthScreen() {
     content: { flex: 1, paddingHorizontal: 24, paddingVertical: 32, justifyContent: "center" },
     header: { marginBottom: 40, alignItems: "center" },
     logo: { fontSize: 64, marginBottom: 16 },
-    title: { fontSize: 28, fontWeight: "800", color: colors.foreground, marginBottom: 8 },
-    subtitle: { fontSize: 14, color: colors.muted, textAlign: "center" },
+    title: { fontSize: 32, fontWeight: "900", color: colors.foreground, marginBottom: 12 },
+    slogan: { fontSize: 16, color: colors.primary, textAlign: "center", fontWeight: "600", marginBottom: 16, fontStyle: "italic" },
+    subtitle: { fontSize: 14, color: colors.muted, textAlign: "center", marginBottom: 20, lineHeight: 20 },
     tabs: { flexDirection: "row", gap: 12, marginBottom: 32 },
     tab: {
       flex: 1,
@@ -163,8 +164,9 @@ export default function AuthScreen() {
             <View style={s.header}>
               <Text style={s.logo}>🎯</Text>
               <Text style={s.title}>Aprova+</Text>
+              <Text style={s.slogan}>A constância aprova</Text>
               <Text style={s.subtitle}>
-                {mode === "login" ? "Faça login na sua conta" : "Crie sua conta"}
+                {mode === "login" ? "Bem-vindo de volta! Sua jornada continua aqui." : "Comece sua jornada para a aprovação no concurso dos seus sonhos."}
               </Text>
             </View>
 
