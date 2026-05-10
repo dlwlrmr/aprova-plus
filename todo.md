@@ -16,3 +16,7 @@
 - [x] Adicionar microanimações (check, progresso, transições)
 - [x] Adicionar sons de feedback
 - [x] Polimento visual final
+- [x] Implementar aba Questões & Estudo com banco de questões por concurso
+- [x] Adicionar sistema de dicas de recursos (livros, vídeoaulas)
+- [x] Implementar sistema de anotações do usuário
+- [x] Integrar aba Questões ao tab bar

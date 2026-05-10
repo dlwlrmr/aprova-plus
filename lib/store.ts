@@ -21,6 +21,17 @@ export interface DayTask {
   isReview?: boolean;
 }
 
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  area: string;
+  concurso: string;
+  createdAt: number;
+  updatedAt: number;
+  tags: string[];
+}
+
 export interface AppState {
   profile: UserProfile | null;
   streak: number;
@@ -31,6 +42,8 @@ export interface AppState {
   tiredModeActive: boolean;
   soundEnabled: boolean;
   tasksCompletedTotal: number;
+  notes: Note[];
+  questionsAnswered: { [key: string]: number }; // questionId -> 1 (correto) ou 0 (errado)
 }
 
 const STORAGE_KEY = "@aprova_plus_state";
@@ -45,6 +58,8 @@ const defaultState: AppState = {
   tiredModeActive: false,
   soundEnabled: true,
   tasksCompletedTotal: 0,
+  notes: [],
+  questionsAnswered: {},
 };
 
 export async function loadState(): Promise<AppState> {

@@ -25,6 +25,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     tiredModeActive: false,
     soundEnabled: true,
     tasksCompletedTotal: 0,
+    notes: [],
+    questionsAnswered: {},
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -102,6 +104,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       tiredModeActive: false,
       soundEnabled: true,
       tasksCompletedTotal: 0,
+      notes: [],
+      questionsAnswered: {},
     };
     setState(fresh);
     await saveState(fresh);
