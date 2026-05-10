@@ -24,3 +24,20 @@
 - [x] Adicionar questões, vídeoaulas e livros para cada concurso
 - [x] Atualizar onboarding com seleção de concurso
 - [x] Integrar conteúdo específico por concurso na aba Estudo
+
+## Integração Supabase
+
+- [x] Configurar variáveis de ambiente (SUPABASE_URL, SUPABASE_ANON_KEY)
+- [x] Criar cliente Supabase com storage seguro
+- [x] Implementar autenticação com Supabase (signup, login, logout)
+- [x] Implementar sessão persistente com AsyncStorage/SecureStore
+- [x] Criar serviço de sincronização de dados (SyncService)
+- [x] Sincronizar progresso, streak, horas estudadas
+- [x] Sincronizar tarefas e anotações
+- [x] Sincronizar progresso de matérias
+- [x] Criar telas de autenticação (login/signup)
+- [x] Integrar autenticação ao app-context
+- [x] Criar schema SQL no Supabase
+- [x] Implementar sincronização em tempo real (Realtime)
+- [x] Testes de autenticação e persistência
+- [x] Polimento final e entrega
