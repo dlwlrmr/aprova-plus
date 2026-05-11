@@ -1,0 +1,34 @@
+{
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist",
+  "env": {
+    "EXPO_PUBLIC_SUPABASE_URL": "@expo_public_supabase_url",
+    "EXPO_PUBLIC_SUPABASE_ANON_KEY": "@expo_public_supabase_anon_key"
+  },
+  "headers": [
+    {
+      "source": "/service-worker.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
