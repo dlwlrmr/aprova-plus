@@ -5,7 +5,7 @@ interface AppContextValue{
  state:AppState;isLoading:boolean;isAuthenticated:boolean;userId:string|null;userEmail:string|null;
  completeOnboarding:(profile:UserProfile)=>Promise<void>;toggleTask:(id:string)=>Promise<void>;toggleTiredMode:()=>Promise<void>;toggleSound:()=>Promise<void>;addStudyTime:(m:number)=>Promise<void>;resetApp:()=>Promise<void>;
  login:(e:string,p:string)=>Promise<void>;logout:()=>Promise<void>;signup:(e:string,p:string,n:string)=>Promise<void>;syncToSupabase:()=>Promise<void>;
- saveCycle:(cycle:StudyCycle)=>Promise<void>;moveSubject:(subjectId:string,direction:-1|1)=>Promise<void>;updateProfile:(patch:Partial<UserProfile>)=>Promise<void>;updateLesson:(subjectId:string,lessonId:string,patch:Partial<Lesson>)=>Promise<void>;updateSubject:(subjectId:string,patch:Partial<Subject>)=>Promise<void>;addSubject:(name:string)=>Promise<void>;deleteSubject:(subjectId:string)=>Promise<void>;
+ saveCycle:(cycle:StudyCycle)=>Promise<void>;advanceCycle:()=>Promise<void>;moveSubject:(subjectId:string,direction:-1|1)=>Promise<void>;updateProfile:(patch:Partial<UserProfile>)=>Promise<void>;updateLesson:(subjectId:string,lessonId:string,patch:Partial<Lesson>)=>Promise<void>;updateSubject:(subjectId:string,patch:Partial<Subject>)=>Promise<void>;addSubject:(name:string)=>Promise<void>;deleteSubject:(subjectId:string)=>Promise<void>;
 }
 const AppContext=createContext<AppContextValue|null>(null);
 const fresh:AppState={profile:null,streak:0,lastStudyDate:null,totalHours:0,weeklyHours:[0,0,0,0,0,0,0],todayTasks:[],tiredModeActive:false,soundEnabled:true,tasksCompletedTotal:0,notes:[],questionsAnswered:{},cycle:emptyCycle()};
@@ -25,12 +25,13 @@ export function AppProvider({children}:{children:React.ReactNode}){
  const signup=async(e:string,p:string,n:string)=>{const r=await AuthService.signup(e,p,{email:e,name:n,concurso:"",horasPerDay:2,trabalha:false,difficulty:"procrastination"});if(r.error||!r.user)throw new Error(r.error||"Falha ao criar conta");setIsAuthenticated(true);setUserId(r.user.id);setUserEmail(r.user.email||null)};
  const syncToSupabase=async()=>{if(!isAuthenticated||!userId)return;await SyncService.syncDailyProgress(userId,{horasEstudadas:state.totalHours,tarefasConcluidas:state.tasksCompletedTotal,streak:state.streak}as any)};
  const saveCycle=async(cycle:StudyCycle)=>persist({...state,cycle});
+ const advanceCycle=async()=>{const subjects=state.cycle.subjects;if(!subjects.length)return;const cursor=state.cycle.cursor||0;let next=(cursor+1)%subjects.length;let checked=0;while(checked<subjects.length&&subjects[next].lessons.every(l=>l.status==="concluida")){next=(next+1)%subjects.length;checked++;}await saveCycle({...state.cycle,cursor:next});};
  const moveSubject=async(subjectId:string,direction:-1|1)=>{const subjects=[...state.cycle.subjects];const i=subjects.findIndex(s=>s.id===subjectId);const j=i+direction;if(i<0||j<0||j>=subjects.length)return;[subjects[i],subjects[j]]=[subjects[j],subjects[i]];await saveCycle({...state.cycle,subjects})};
  const updateProfile=async(patch:Partial<UserProfile>)=>{const profile=state.profile?{...state.profile,...patch}:null;if(!profile)return;await persist({...state,profile});if(isAuthenticated&&userId)await AuthService.updateUserProfile(userId,patch as any)};
  const updateLesson=async(sid:string,lid:string,patch:Partial<Lesson>)=>{const cycle={...state.cycle,subjects:state.cycle.subjects.map(s=>s.id===sid?{...s,lessons:s.lessons.map(l=>l.id===lid?{...l,...patch,updatedAt:Date.now()}:l)}:s)};await saveCycle(cycle)};
  const updateSubject=async(sid:string,patch:Partial<Subject>)=>saveCycle({...state.cycle,subjects:state.cycle.subjects.map(s=>s.id===sid?{...s,...patch}:s)});
  const addSubject=async(name:string)=>{const n=name.trim();if(!n)return;await saveCycle({...state.cycle,subjects:[...state.cycle.subjects,createSubject(n)]})};
  const deleteSubject=async(sid:string)=>saveCycle({...state.cycle,subjects:state.cycle.subjects.filter(s=>s.id!==sid)});
- return <AppContext.Provider value={{state,isLoading,isAuthenticated,userId,userEmail,completeOnboarding,toggleTask,toggleTiredMode,toggleSound,addStudyTime,resetApp,login,logout,signup,syncToSupabase,saveCycle,moveSubject,updateProfile,updateLesson,updateSubject,addSubject,deleteSubject}}>{children}</AppContext.Provider>
+ return <AppContext.Provider value={{state,isLoading,isAuthenticated,userId,userEmail,completeOnboarding,toggleTask,toggleTiredMode,toggleSound,addStudyTime,resetApp,login,logout,signup,syncToSupabase,saveCycle,advanceCycle,moveSubject,updateProfile,updateLesson,updateSubject,addSubject,deleteSubject}}>{children}</AppContext.Provider>
 }
 export function useApp(){const c=useContext(AppContext);if(!c)throw new Error("useApp must be used within AppProvider");return c}
