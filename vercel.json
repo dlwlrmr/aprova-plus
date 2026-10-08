@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx expo export --platform web",
+  "buildCommand": "sed -i '/Force write CSS/d; /This fixes iOS styling/d; /forceWriteFileSystem/d' metro.config.js && npx expo export --platform web",
   "outputDirectory": "dist",
   "headers": [
     {
