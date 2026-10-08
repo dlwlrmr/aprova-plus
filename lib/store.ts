@@ -50,6 +50,6 @@ function getSubjectsForConcurso(concurso:string){const l=concurso.toLowerCase();
   if(l.includes("receita")||l.includes("fiscal"))return ["Português","Matemática","Direito Tributário","Contabilidade","Revisão"];
   return ["Português","Matemática","Direito Constitucional","Conhecimentos Gerais","Revisão"];
 }
-export function createLesson(title:string):Lesson=>({id:`lesson_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,title,status:"pendente",questions:0,correct:0,wrong:0,note:"",updatedAt:Date.now()});
-export function createSubject(name:string):Subject=>({id:`subject_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,name,weeklyHours:0,notes:"",lessons:[]});
+export const createLesson=(title:string):Lesson=>({id:`lesson_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,title,status:"pendente",questions:0,correct:0,wrong:0,note:"",updatedAt:Date.now()});
+export const createSubject=(name:string):Subject=>({id:`subject_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,name,weeklyHours:0,notes:"",lessons:[]});
 export function updateStreak(state:AppState){const today=new Date().toISOString().split("T")[0];if(state.lastStudyDate===today)return{streak:state.streak,lastStudyDate:today};const yesterday=new Date(Date.now()-86400000).toISOString().split("T")[0];return{streak:state.lastStudyDate===yesterday?state.streak+1:1,lastStudyDate:today};}
