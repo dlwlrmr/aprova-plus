@@ -15,14 +15,14 @@ export interface Lesson {
 export interface Subject {
   id:string; name:string; weeklyHours:number; notes:string; lessons:Lesson[];
 }
-export interface StudyCycle { name:string; subjects:Subject[]; }
+export interface StudyCycle { name:string; subjects:Subject[]; cursor:number; }
 export interface AppState {
   profile:UserProfile|null; streak:number; lastStudyDate:string|null; totalHours:number;
   weeklyHours:number[]; todayTasks:DayTask[]; tiredModeActive:boolean; soundEnabled:boolean;
   tasksCompletedTotal:number; notes:Note[]; questionsAnswered:{[key:string]:number};
   cycle:StudyCycle;
 }
-export const emptyCycle=():StudyCycle=>({name:"Meu ciclo",subjects:[]});
+export const emptyCycle=():StudyCycle=>({name:"Meu ciclo",subjects:[],cursor:0});
 const defaultState:AppState={
   profile:null,streak:0,lastStudyDate:null,totalHours:0,weeklyHours:[0,0,0,0,0,0,0],
   todayTasks:[],tiredModeActive:false,soundEnabled:true,tasksCompletedTotal:0,notes:[],questionsAnswered:{},cycle:emptyCycle()
@@ -31,7 +31,7 @@ const STORAGE_KEY="@aprova_plus_state";
 
 export async function loadState():Promise<AppState>{
   try{const raw=await AsyncStorage.getItem(STORAGE_KEY);if(!raw)return defaultState;
-    const parsed=JSON.parse(raw);return {...defaultState,...parsed,cycle:parsed.cycle||emptyCycle()};
+    const parsed=JSON.parse(raw);const cycle=parsed.cycle?{...emptyCycle(),...parsed.cycle}:emptyCycle();return {...defaultState,...parsed,cycle};
   }catch{return defaultState;}
 }
 export async function saveState(state:Partial<AppState>):Promise<void>{
