@@ -1,10 +1,6 @@
 {
-  "buildCommand": "pnpm build",
+  "buildCommand": "npx expo export --platform web",
   "outputDirectory": "dist",
-  "env": {
-    "EXPO_PUBLIC_SUPABASE_URL": "@expo_public_supabase_url",
-    "EXPO_PUBLIC_SUPABASE_ANON_KEY": "@expo_public_supabase_anon_key"
-  },
   "headers": [
     {
       "source": "/service-worker.js",
