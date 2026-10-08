@@ -17,10 +17,12 @@ import { useRouter } from "expo-router";
 
 export default function ProfileScreen() {
   const colors = useColors();
-  const { state, toggleSound, resetApp } = useApp();
+  const { state, toggleSound, resetApp, updateProfile } = useApp();
   const { colorScheme, setColorScheme } = useThemeContext();
   const router = useRouter();
   const profile = state.profile;
+  const [concurso, setConcurso] = useState(profile?.concurso || "");
+  const [editingConcurso, setEditingConcurso] = useState(false);
 
   const handleReset = () => {
     Alert.alert(
@@ -56,15 +58,15 @@ export default function ProfileScreen() {
       alignItems: "center", justifyContent: "center",
     },
     section: { paddingHorizontal: 20, marginBottom: 24 },
-    sectionTitle: { fontSize: 13, fontWeight: "700", color: colors.muted, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 },
+    sectionTitle: { fontSize: 14, fontWeight: "800", color: colors.foreground, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 },
     row: {
       flexDirection: "row", alignItems: "center", gap: 14,
       backgroundColor: colors.surface,
       borderRadius: 14, padding: 16, marginBottom: 8,
       borderWidth: 1.5, borderColor: colors.border,
     },
-    rowLabel: { fontSize: 15, fontWeight: "600", color: colors.foreground, flex: 1 },
-    rowValue: { fontSize: 14, color: colors.muted },
+    rowLabel: { fontSize: 15, fontWeight: "700", color: colors.foreground, flex: 1 },
+    rowValue: { fontSize: 14, color: colors.foreground, fontWeight: "600" },
     dangerBtn: {
       marginHorizontal: 20, marginBottom: 32,
       backgroundColor: colors.error + "15",
@@ -122,8 +124,8 @@ export default function ProfileScreen() {
           <Text style={s.sectionTitle}>Meu Plano</Text>
           <View style={s.row}>
             <Text style={{ fontSize: 20 }}>📋</Text>
-            <Text style={s.rowLabel}>Concurso</Text>
-            <Text style={s.rowValue}>{profile?.concurso || "—"}</Text>
+            {editingConcurso ? <TextInput value={concurso} onChangeText={setConcurso} placeholder="Ex.: ENEM, OAB, concurso..." placeholderTextColor={colors.muted} style={{flex:1,borderWidth:1.5,borderColor:colors.border,borderRadius:10,padding:10,color:colors.foreground,fontSize:14}}/> : <><Text style={s.rowLabel}>Concurso</Text><Text style={s.rowValue}>{profile?.concurso || "—"}</Text></>}
+            <Pressable onPress={async()=>{if(editingConcurso){await updateProfile({concurso:concurso.trim()||"Não definido"});setEditingConcurso(false)}else{setConcurso(profile?.concurso||"");setEditingConcurso(true)}}} hitSlop={10}><Text style={{color:colors.primary,fontWeight:"800"}}>{editingConcurso?"Salvar":"Editar"}</Text></Pressable>
           </View>
           <View style={s.row}>
             <Text style={{ fontSize: 20 }}>⏱️</Text>
